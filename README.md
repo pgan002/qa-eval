@@ -651,7 +651,7 @@ macro:
 The fraction of relevant items among the top 'k' recommendations. It answers the question: "Of all items the user cares about, how many did we inclide in the first k spots?"
 * **Formula**:
     $`
-    \frac{\text{Number of relevant items in top k}}{\text{Total number of relevant items}}
+    \frac{\text{Number of relevant items in top k}}{\text{Number of relevant items}}
     `$
 * **Calculation**: Count the number of relevant items in the top `k` retrieved results; divide that by the *total* number of relevant items.
 * **Example**: Suppose there are **5** relevant documents for a given query. Suppose our system retrieves **3** of them in the top 10 results (`k=10`). Recall@10 is `3 / 5 = 0.6`.
@@ -672,9 +672,10 @@ print(f"Recall@{k_value}: {r_at_k}") # Recall@5: 0.6
 Evaluates a ranked list of recommendations by looking at the precision at the position of each correctly retrieved item. It rewards systems for placing relevant items higher up in the list. It's more sophisticated than just looking at precision at a single cutoff because it considers the entire ranking.
 * **Formula**:
     $`
-    \frac{1}{\text{Total number of relevant items}} \sum_{k=1}^{n} (P(k) \times \text{rel}(k))
-    `$
-    Where `P(k)` is the precision at rank `k`, and `rel(k)` is an indicator function that is 1 if the item at rank `k` is relevant and 0 otherwise.
+    \frac{\sum_{k=1}^{n} (P(k) \times \text{rel}(k))}{\text{Number of relevant items}
+    `$, where \
+    ** `P(k)` is the precision at rank `k`, and
+    ** `rel(k)` is 1 if the item at rank `k` is relevant and 0 otherwise.
 * **Calculation**: For a single query, go down the list of retrieved items. Every time we encounter a relevant item, we calculate the precision *at that index* (i.e., `number of hits / current rank`). Then average all of these precision scores. Finally, divide that average by the total number of relevant items.
 * **Example**: Suppose our system retrieves the following list, and the **bolded** items are the relevant ones: **[doc1]**, doc2, **[doc3]**, doc4, doc5. There are 2 relevant documents.
     1. At rank 1 (**doc1** is relevant): Precision is `1/1 = 1.0`.
