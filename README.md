@@ -648,14 +648,13 @@ macro:
 
 ### Recall@k
 
-**Recall@k** tells you what fraction of the total number of relevant items were found in the top 'k' recommendations. It answers the question: "Out of all the items the user actually cares about, how many did we successfully show them in the first k spots?"
-
-* **How it works**: You count the number of relevant items in the top `k` retrieved results and divide that by the *total* number of items that are actually relevant.
+The fraction of relevant items among the top 'k' recommendations. It answers the question: "Of all items the user cares about, how many did we inclide in the first k spots?"
 * **Formula**:
     $`
-    \text{Recall@k} = \frac{\text{Number of relevant items in top k}}{\text{Total number of relevant items}}
+    \frac{\text{Number of relevant items in top k}}{\text{Total number of relevant items}}
     `$
-* **Example**: If there are **5** total relevant documents for a query and your system retrieves **3** of them in the top 10 results (`k=10`), your Recall@10 is `3 / 5 = 0.6`.
+* **Calculation**: Count the number of relevant items in the top `k` retrieved results; divide that by the *total* number of relevant items.
+* **Example**: Suppose there are **5** relevant documents for a given query. Suppose our system retrieves **3** of them in the top 10 results (`k=10`). Recall@10 is `3 / 5 = 0.6`.
 
 ```python
 from retrieval_evaluation import recall_at_k
@@ -670,19 +669,17 @@ print(f"Recall@{k_value}: {r_at_k}") # Recall@5: 0.6
 
 ### Average Precision (AP)
 
-**Average Precision (AP)** evaluates a ranked list of recommendations by looking at the precision at the position of each correctly retrieved item. It rewards systems for placing relevant items higher up in the list. It's more sophisticated than just looking at precision at a single cutoff because it considers the entire ranking.
-
-* **How it works**: For a single query, you go down the list of retrieved items. Every time you encounter a relevant item, you calculate the precision *at that exact spot* (i.e., `number of hits / current rank`). You then average all of these precision scores. The final average is divided by the total number of relevant items.
+Evaluates a ranked list of recommendations by looking at the precision at the position of each correctly retrieved item. It rewards systems for placing relevant items higher up in the list. It's more sophisticated than just looking at precision at a single cutoff because it considers the entire ranking.
 * **Formula**:
-    $$
-    \text{AP} = \frac{1}{\text{Total number of relevant items}} \sum_{k=1}^{n} (P(k) \times \text{rel}(k))
-    $$
+    $`
+    \frac{1}{\text{Total number of relevant items}} \sum_{k=1}^{n} (P(k) \times \text{rel}(k))
+    `$
     Where `P(k)` is the precision at rank `k`, and `rel(k)` is an indicator function that is 1 if the item at rank `k` is relevant and 0 otherwise.
-
-* **Example**: Your system retrieves the following list, and the **bolded** items are the relevant ones: **[doc1]**, doc2, **[doc3]**, doc4, doc5. There are 2 relevant documents in total.
-    1.  At rank 1 (**doc1** is relevant): Precision is `1/1 = 1.0`.
-    2.  At rank 3 (**doc3** is relevant): Precision is `2/3 ≈ 0.67`.
-    3.  Average these precision scores: `(1.0 + 0.67) / 2 = 0.835`.
+* **Calculation**: For a single query, go down the list of retrieved items. Every time we encounter a relevant item, we calculate the precision *at that index* (i.e., `number of hits / current rank`). Then average all of these precision scores. Finally, divide that average by the total number of relevant items.
+* **Example**: Suppose our system retrieves the following list, and the **bolded** items are the relevant ones: **[doc1]**, doc2, **[doc3]**, doc4, doc5. There are 2 relevant documents.
+    1. At rank 1 (**doc1** is relevant): Precision is `1/1 = 1.0`.
+    2. At rank 3 (**doc3** is relevant): Precision is `2/3 ≈ 0.67`.
+    3. Average these precision scores: `(1.0 + 0.67) / 2 = 0.835`.
     The Average Precision for this query is **0.835**.
 
 ```python
