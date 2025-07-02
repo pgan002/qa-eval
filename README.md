@@ -672,7 +672,7 @@ print(f"Recall@{k_value}: {r_at_k}") # Recall@5: 0.6
 Evaluates a ranked list of recommendations by looking at the precision at the position of each correctly retrieved item. It rewards systems for placing relevant items higher up in the list. It's more sophisticated than just looking at precision at a single cutoff because it considers the entire ranking.
 * **Formula**:
     $`
-    \frac{\sum_{k=1}^{n} (P(k) \times \text{rel}(k))}{\text{Number of relevant items}
+    \frac{\sum_{k=1}^{n} (P(k) \times \text{rel}(k))}{\text{Number of relevant items}}
     `$, where \
     ** `P(k)` is the precision at rank `k`, and
     ** `rel(k)` is 1 if the item at rank `k` is relevant and 0 otherwise.
