@@ -652,7 +652,7 @@ macro:
 
 * **How it works**: You count the number of relevant items in the top `k` retrieved results and divide that by the *total* number of items that are actually relevant.
 * **Formula**:
-
+    \left
     $$
     \text{Recall@k} = \frac{\text{Number of relevant items in top k}}{\text{Total number of relevant items}}
     $$
