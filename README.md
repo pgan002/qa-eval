@@ -654,14 +654,14 @@ The fraction of relevant items among the top 'k' recommendations. It answers the
     \frac{\text{Number of relevant items in top k}}{\text{Number of relevant items}}
     `$
 * **Calculation**: Count the number of relevant items in the top `k` retrieved results; divide that by the *total* number of relevant items.
-* **Example**: Suppose there are **5** relevant documents for a given query. Suppose our system retrieves **3** of them in the top 10 results (`k=10`). Recall@10 is `3 / 5 = 0.6`.
+* **Example**: Suppose there are 4 relevant documents for a given query. Suppose our system retrieves 3 of them in the top 5 results (`k=5`). Recall@5 is `3 / 4 = 0.75`.
 
 ```python
 recall_at_k(
-    {1, 3, 5, 7, 9},
-    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    relevant_docs={1, 3, 5, 6},
+    retrieved_docs=[1, 4, 3, 5, 7],
     k=5
-)  # => 0.6
+)  # => 0.75
 ```
 
 ### Average Precision (AP)
@@ -680,15 +680,17 @@ Evaluates a ranked list of recommendations by looking at the precision at the po
     3. Divide that average by the total number of relevant items.
 * **Example**:
     * Suppose:
-      * The relevant items are `{1, 2, 5, 8}`
-      * Our system retrieves `[8, 3, 2, 4, 5, 6, 7, 1]`
+      * The relevant items are `1, 3, 5, 6`
+      * Our system retrieves `1, 4, 3, 5, 7`
     * Calculation:
-      1. Item at index 1 (item 8) is relevant. Precision@1 = 1/1 = 1.0
-      1. Item at index 3 (item 2) is relevant. Precision@3 = 2/3 = 0.666...
-      1. Item at index 5 (item 5) is relevant. Precision@5 = 3/5 = 0.6
-      1. Item at index 8 (item 1) is relevant. Precision@8 = 4/8 = 0.5
-      1. AP = (1.0 + 0.666... + 0.6 + 0.5) / 4 = 0.69167
+      * Item at index 1 (item 1) is relevant. Precision@1 = 1/1
+      * Item at index 3 (item 2) is relevant. Precision@3 = 2/3
+      * Item at index 4 (item 5) is relevant. Precision@4 = 3/4
+      * AP = (1.0 + 2/3 + 3/4) / 3 = 0.8055...
 
 ```python
-average_precision(relevant_docs={1, 2, 5, 8}, retrieved_docs=[1, 3, 2, 4, 5, 6, 7, 8]) # ~=> 0.69167
+average_precision(
+    relevant_docs={1, 3, 5, 6},
+    retrieved_docs=[1, 4, 3, 5, 7]
+) # ~=> 0.8056
 ```
