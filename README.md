@@ -651,7 +651,8 @@ macro:
 **Recall@k** tells you what fraction of the total number of relevant items were found in the top 'k' recommendations. It answers the question: "Out of all the items the user actually cares about, how many did we successfully show them in the first k spots?"
 
 * **How it works**: You count the number of relevant items in the top `k` retrieved results and divide that by the *total* number of items that are actually relevant.
-* **Formula**:\
+* **Formula**:
+
     $$
     \text{Recall@k} = \frac{\text{Number of relevant items in top k}}{\text{Total number of relevant items}}
     $$
