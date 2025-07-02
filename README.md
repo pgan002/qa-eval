@@ -673,9 +673,10 @@ Evaluates a ranked list of recommendations by looking at the precision at the po
 * **Formula**:
     $`
     \frac{\sum_{k=1}^{n} (P(k) \times \text{rel}(k))}{\text{Number of relevant items}}
-    `$, where \
-    ** `P(k)` is the precision at rank `k`, and
-    ** `rel(k)` is 1 if the item at rank `k` is relevant and 0 otherwise.
+    `$,\
+    where:
+    * `P(k)` is the precision at rank `k`
+    * `rel(k)` is 1 if the item at rank `k` is relevant and 0 otherwise.
 * **Calculation**: For a single query, go down the list of retrieved items. Every time we encounter a relevant item, we calculate the precision *at that index* (i.e., `number of hits / current rank`). Then average all of these precision scores. Finally, divide that average by the total number of relevant items.
 * **Example**: Suppose our system retrieves the following list, and the **bolded** items are the relevant ones: **[doc1]**, doc2, **[doc3]**, doc4, doc5. There are 2 relevant documents.
     1. At rank 1 (**doc1** is relevant): Precision is `1/1 = 1.0`.
